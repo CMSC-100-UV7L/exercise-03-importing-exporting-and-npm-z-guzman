@@ -1,4 +1,6 @@
 import { v4 as uuidv4 } from 'uuid';
+import validator from 'validator';
+import fs from 'fs';
 
 function generateUniqueID(firstname, lastname){
     var generatedID = uuidv4();
@@ -6,4 +8,27 @@ function generateUniqueID(firstname, lastname){
     return (firstname[0] + lastname + id);
 }
 
-export default { generateUniqueID };
+function addAccount (details){
+    var isValid = false;
+    if (details.length == 4){
+        if (typeof details[0] === 'string' && typeof details[1] === 'string' && typeof details[2] === 'string'){
+            if (details[0] && details[1] && details[2]){
+                if (validator.isEmail(details[2])){
+                    if (details[3] >= 18){
+                        isValid = true;
+                        var newID = generateUniqueID(details[0], details[1]);
+                        details.push(newID);
+                        const stringedDetails = JSON.stringify(details);
+                        fs.appendFile('users.txt', (stringedDetails + "\n"), (err) => {
+                            if (err) throw err;
+                        })
+                    }
+                }
+            }
+        }
+    }
+
+    return isValid;
+}
+
+export default { generateUniqueID, addAccount };

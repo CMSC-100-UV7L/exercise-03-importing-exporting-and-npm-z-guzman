@@ -1,4 +1,4 @@
 import functions from "./functions.js";
 
-var idthing = functions.generateUniqueID("karl", "marx");
-console.log(idthing);
+var testcase = functions.addAccount(["first", "last", "firstlast@gmail.com", 19]);
+console.log(testcase);
