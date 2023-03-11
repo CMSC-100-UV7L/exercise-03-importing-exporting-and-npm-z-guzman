@@ -5,7 +5,7 @@ import fs from 'fs';
 function generateUniqueID(firstname, lastname){
     var generatedID = uuidv4();
     var id = generatedID.slice(0, 8);
-    return (firstname[0] + lastname + id);
+    return (firstname[0].toLowerCase() + lastname.toLowerCase() + id);
 }
 
 function addAccount (details){
@@ -19,15 +19,14 @@ function addAccount (details){
                         var newID = generateUniqueID(details[0], details[1]);
                         details.push(newID);
                         const stringedDetails = JSON.stringify(details);
-                        fs.appendFile('users.txt', (stringedDetails + "\n"), (err) => {
-                            if (err) throw err;
-                        })
+                        fs.appendFileSync('users.txt', (stringedDetails + "\n"))
                     }
                 }
             }
         }
     }
 
+    console.log(isValid);
     return isValid;
 }
 
